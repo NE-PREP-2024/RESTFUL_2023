@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../auth/Login";
-import Signup from "../auth/Signup";
 import DashboardLayout from "../dashboard";
+import Signup from "../auth/Signup";
 
 function AppRoutes() {
   return (

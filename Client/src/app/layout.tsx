@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { RecoilRoot } from "recoil";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./pages/_AppRoutes";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -24,6 +25,7 @@ export default function RootLayout({
           >
             <BrowserRouter>
               <AppProvider>
+                <Toaster />
                 <AppRoutes />
               </AppProvider>
             </BrowserRouter>

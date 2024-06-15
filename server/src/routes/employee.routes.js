@@ -60,7 +60,7 @@ router.get("/", getAllEmployees);
 // Create a new employee
 /**
  * @openapi
- * /api/v1/employees:
+ * /api/v1/employees/create:
  *   post:
  *     summary: Create a new employee
  *     tags:
