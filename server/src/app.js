@@ -4,6 +4,7 @@ const app = express();
 import dotenv from "dotenv";
 import EmployeeRouter from "./routes/employee.routes.js";
 import UserRouter from "./routes/user.routes.js";
+import StudentRouter from "./routes/student.routes.js";
 import swaggerDocs from "./swagger.js";
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -29,6 +30,7 @@ app.get("/healthcheck", (req, res) => {
 
 app.use("/api/v1/users", UserRouter);
 app.use("/api/v1/employees", EmployeeRouter);
+app.use("/api/v1/students", StudentRouter);
 // Start the server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

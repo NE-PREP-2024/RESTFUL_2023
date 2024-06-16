@@ -5,17 +5,22 @@ export const userSchema = yup.object().shape({
   confirmPassword: yup.string().min(6).required(),
 });
 export const loginSchema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().min(6).required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(6).required(),
 });
 
-export const employeeSchema =  yup.object().shape({  
+export const employeeSchema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
   nationalId: yup.string().required(),
   telephone: yup.string().required(),
-  email: yup.string().email().required(),  
-  position: yup.string().required(),  
+  email: yup.string().email().required(),
+  position: yup.string().required(),
 });
-
-
+export const studentSchema = yup.object().shape({
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  email: yup.string().email().required(),
+  dateOfBirth: yup.date().required(),
+  studentNumber: yup.string().required(),
+});

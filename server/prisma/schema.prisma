@@ -45,3 +45,28 @@ model Department {
   name      String
   employees Employee[]
 }
+model Student {
+  id        Int        @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email        String
+  dateOfBirth   DateTime
+  studentNumber String
+}
+
+
+model Course {
+  id        Int        @id @default(autoincrement())
+  courseName      String
+  courseCode      String
+  passMark    Int
+  teachingHours Int
+  
+}
+model StudentCourse {
+  id        Int        @id @default(autoincrement())
+  studentId      Int
+  courseId      Int
+  marks  Int
+  duration Int
+}
