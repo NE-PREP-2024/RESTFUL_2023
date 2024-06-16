@@ -1,4 +1,7 @@
-import axios, { api } from "@/app/components/api-services/axios.config";
+import axios, {
+  AuthApi,
+  api,
+} from "@/app/components/api-services/axios.config";
 import { Button, Input, Select } from "@mantine/core";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -30,7 +33,7 @@ function CreateEmployee() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await api.post("/employees", data);
+      const response = await AuthApi.post("/employees", data);
       console.log(response.data);
       if (response.status === 201) {
         toast.success("Employee created successfully!");

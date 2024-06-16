@@ -35,7 +35,7 @@ const router = express.Router();
  *                 format: email
  *                 description: Email address of the Student
  *               dateOfBirth:
- *                 type: string
+ *                 type: date
  *                 format: date
  *                 example: 2021-10-20
  *                 description: Date of birth of the Student

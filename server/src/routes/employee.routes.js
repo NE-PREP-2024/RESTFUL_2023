@@ -129,7 +129,7 @@ router.get("/", getAllEmployees);
  *         description: Internal server error
  */
 
-router.post("/", validateBody(employeeSchema), createEmployee);
+router.post("/", validateBody(employeeSchema), checker, createEmployee);
 router.post("/laptop", checker, createLaptop);
 router.post("/department", checker, createDepartment);
 router.get("/departments", checker, getDepartments);

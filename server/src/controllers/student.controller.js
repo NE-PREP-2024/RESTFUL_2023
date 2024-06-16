@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 export async function createStudent(req, res) {
   try {
     const { firstName, lastName, email, dateOfBirth, studentNumber } = req.body;
+    const dateOfBirthDate = new Date(dateOfBirth);
 
     // Create a new student
     const student = await prisma.student.create({
@@ -11,7 +12,7 @@ export async function createStudent(req, res) {
         firstName,
         lastName,
         email,
-        dateOfBirth,
+        dateOfBirth: dateOfBirthDate,
         studentNumber,
       },
     });

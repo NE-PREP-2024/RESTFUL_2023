@@ -18,6 +18,7 @@ function Login() {
     try {
       const response = await axios.post("/users/login", data);
       console.log(response.data);
+      sessionStorage.setItem("token", response.data.token);
       if (response.status === 200) {
         toast.success("User logged in successfully!");
         navigate("/dashboard/employee");

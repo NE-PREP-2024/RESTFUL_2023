@@ -9,7 +9,22 @@ const options = {
       description: "Employee management api for registration and retrieval",
       version: "1.0.0",
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
+
   // looks for configuration in specified directories
   apis: [path.join(process.cwd(), "/src/routes/*.routes.js")], // remember to make the path relative to the cwd;
 };

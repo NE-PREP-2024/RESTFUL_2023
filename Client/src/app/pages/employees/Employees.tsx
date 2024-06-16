@@ -1,17 +1,22 @@
-import axios from "@/app/components/api-services/axios.config";
 import { useAllEmployees } from "@/app/components/api-services/useEmployees";
 import DataTable from "@/app/components/data-table";
 import { Column } from "@/app/components/data-table/types";
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
-const data = [
-  { id: 1, name: "John Doe", email: "jo@gmail.com" },
-  { id: 2, name: "Jane Doe", email: "jane@gmail.com" },
-  { id: 3, name: "John Smith", email: "jsim@gmail.com" },
-];
+import React, { useState, useEffect } from "react";
+
 const EmployeesTable = () => {
-  const { employeeData } = useAllEmployees();
-  console.log("Employees", employeeData);
+  const [page, setPage] = useState(1);
+  const {
+    employeeData,
+    totalPage,
+    totalCount,
+    currentPage,
+    isLoading,
+    isError,
+  } = useAllEmployees(page, 4);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   const columns: Column<any>[] = [
     {
@@ -39,18 +44,38 @@ const EmployeesTable = () => {
     {
       key: "department",
       header: "Department",
+      cell: (cellContext) => cellContext.row.data.department?.name,
     },
     {
       key: "laptop",
       header: "Laptop",
+      cell: (cellContext) => cellContext.row.data.laptop?.laptopModel,
     },
   ];
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading data</div>;
+  }
+
   return (
     <div>
       <DataTable
         data={employeeData ?? []}
         title={"Employees"}
         columns={columns}
+        paginate
+        pagination={{
+          totalPage: totalPage,
+          currentPage: currentPage,
+          totalCount: totalCount,
+          page: page,
+          perPage: 4,
+          onChange: handlePageChange,
+        }}
       />
     </div>
   );

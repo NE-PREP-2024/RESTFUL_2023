@@ -5,9 +5,7 @@ const baseUrl = "http://localhost:5000/api/v1";
 const axios = _.create({
   baseURL: baseUrl,
   headers: {
-    Authorization: `Bearer ${
-      Cookies.get("token") ?? sessionStorage.getItem("token")
-    }`,
+    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
   },
 });
 
@@ -18,9 +16,7 @@ export const api = _.create({
 export const AuthApi = _.create({
   baseURL: baseUrl,
   headers: {
-    Authorization: `Bearer ${
-      Cookies.get("token") ?? sessionStorage.getItem("token")
-    }`,
+    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
   },
 });
 

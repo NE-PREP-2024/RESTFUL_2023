@@ -1,5 +1,12 @@
-import { Button, Checkbox, Input, Table, TableProps } from "@mantine/core";
-import React from "react";
+import {
+  Button,
+  Checkbox,
+  Input,
+  Table,
+  TableProps,
+  Pagination,
+} from "@mantine/core";
+import React, { useState, useEffect } from "react";
 import { GoPlus } from "react-icons/go";
 import {
   CellContext,
@@ -23,6 +30,7 @@ export interface DataTableProps {
   minWidth?: React.CSSProperties["minWidth"];
   tableProps?: TableProps;
   onPress?: () => void;
+  onPageChange?: (page: number) => void; // Added to handle page change
 }
 
 const DataTable = (props: DataTableProps) => {
@@ -38,13 +46,14 @@ const DataTable = (props: DataTableProps) => {
     tableProps,
     buttonText,
     onPress,
+    onPageChange,
   } = props;
-  const [globalFilter, setGlobalFilter] = React.useState("");
-  const [selectedRows, setSelectedRows] = React.useState<RowContext[]>([]);
-  // const [currentPage, setCurrentPage] = React.useState(1);
+
+  const [globalFilter, setGlobalFilter] = useState("");
+  const [selectedRows, setSelectedRows] = useState<RowContext[]>([]);
+  const [currentPage, setCurrentPage] = useState(pagination?.currentPage || 1);
 
   const toggleRow = (row: RowContext) => {
-    // console.log('---row---', row);
     const selectedRow = selectedRows.find(
       (r) => JSON.stringify(r.data) === JSON.stringify(row.data)
     );
@@ -82,10 +91,23 @@ const DataTable = (props: DataTableProps) => {
     getSelectedRows,
   };
 
-  console.log("---selectedRows---", selectedRows);
   const filteredColumns = columns.filter((col) => !col.omit);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (onPageChange) {
+      onPageChange(page);
+    }
+  };
+
+  useEffect(() => {
+    if (pagination && pagination.currentPage !== currentPage) {
+      setCurrentPage(pagination.currentPage);
+    }
+  }, [pagination]);
+
   return (
-    <div className=" w-full bg-white overflow-hidden p-6 rounded-xl flex flex-col gap-4">
+    <div className="w-full bg-white overflow-hidden p-6 rounded-xl flex flex-col gap-4">
       {showHeader &&
         (tableHeader ? (
           tableHeader(tableContext)
@@ -93,12 +115,11 @@ const DataTable = (props: DataTableProps) => {
           <div className="flex w-full items-center justify-between">
             <div className="flex">
               {typeof title === "string" ? (
-                <h1 className=" font-bold text-2xl">{title}</h1>
+                <h1 className="font-bold text-2xl">{title}</h1>
               ) : (
                 title
               )}
             </div>
-
             <div className="flex gap-x-4">
               {typeof buttonText === "string" ? (
                 <Button
@@ -106,7 +127,7 @@ const DataTable = (props: DataTableProps) => {
                   variant="filled"
                   onClick={onPress}
                 >
-                  {props.buttonText}
+                  {buttonText}
                 </Button>
               ) : (
                 buttonText
@@ -114,7 +135,7 @@ const DataTable = (props: DataTableProps) => {
               <Input
                 type="text"
                 placeholder="Search ..."
-                className=" w-fit"
+                className="w-fit"
                 value={globalFilter}
                 onChange={(e) => setGlobalFilter(e.target.value)}
               />
@@ -124,12 +145,12 @@ const DataTable = (props: DataTableProps) => {
       <div className="flex w-full pb-5 flex-col overflow-x-scroll">
         <Table
           style={{ minWidth: minWidth ?? "" }}
-          className=" w-full"
+          className="w-full"
           {...tableProps}
         >
           <Table.Thead>
             <Table.Tr>
-              <Table.Th className=" w-6" align="center">
+              <Table.Th className="w-6" align="center">
                 <Checkbox
                   size="sm"
                   type="checkbox"
@@ -198,11 +219,12 @@ const DataTable = (props: DataTableProps) => {
         </Table>
       </div>
       {paginate && pagination && (
-        <div>
-          {/* {paginationPosition === 'top' && <PaginationComponent pagination={pagination} />}
-               <PaginationComponent pagination={pagination} />
-               {paginationPosition === 'bottom' && <PaginationComponent pagination={pagination} />} */}
-        </div>
+        <Pagination
+          total={pagination.totalPage}
+          value={currentPage}
+          onChange={handlePageChange}
+          color="#518DC8"
+        />
       )}
     </div>
   );
